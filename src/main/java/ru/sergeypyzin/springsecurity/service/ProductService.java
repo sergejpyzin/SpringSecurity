@@ -17,5 +17,14 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public Product addProduct (Product product) {
+        return productRepository.save(product);
+    }
+
+    public String deleteProduct (Long id) {
+        productRepository.deleteById(id);
+        return "Товар с идентификатором " + id + " был удален";
+    }
+
 
 }
