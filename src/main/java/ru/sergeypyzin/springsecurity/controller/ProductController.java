@@ -47,13 +47,13 @@ public class ProductController {
         product.setProductName(productName);
         product.setPrice(price);
         service.addProduct(product);
-        return "redirect:/guestPage";
+        return "redirect:/";
     }
 
     @PostMapping("/delete-product")
     public String deleteProduct(@RequestParam Long id) {
         service.deleteProduct(id);
-        return "redirect:/guestPage";
+        return "redirect:/";
     }
 
 }
