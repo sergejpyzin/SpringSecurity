@@ -16,11 +16,15 @@ public class AuthHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 
+        // Получаем роли пользователя из объекта Authentication
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 
+        // Проверяем, принадлежит ли пользователь к роли ADMIN
         if (roles.contains("ROLE_ADMIN")) {
+            // Если пользователь администратор, перенаправляем его на страницу с приватными данными
             response.sendRedirect("/private-data");
         } else {
+            // Если пользователь не администратор, перенаправляем его на страницу с публичными данными
             response.sendRedirect("/public-data");
         }
     }
