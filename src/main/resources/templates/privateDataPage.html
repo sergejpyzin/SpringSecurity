@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Private Data Page</title>
+</head>
+<body>
+<h1>Private Data Page</h1>
+<!-- Форма для добавления продукта -->
+<form action="/add-product" method="post">
+    <input type="text" name="productName" placeholder="Product Name" required>
+    <input type="number" name="price" placeholder="Price" required>
+    <button type="submit">Add Product</button>
+</form>
+<!-- Форма для удаления продукта -->
+<form action="/delete-product" method="post">
+    <input type="number" name="id" placeholder="Product ID to delete" required>
+    <button type="submit">Delete Product</button>
+</form>
+<a href="/">Back to Home</a>
+</body>
+</html>
