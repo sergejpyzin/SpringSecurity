@@ -19,9 +19,17 @@ public class SecurityConfig {
 
     private final AuthHandler handler;
 
+    /**
+     * Настройка цепочки фильтров безопасности.
+     *
+     * @param httpSecurity объект конфигурации безопасности
+     * @return цепочка фильтров безопасности
+     * @throws Exception если происходит ошибка при настройке безопасности
+     */
     @Bean
-    SecurityFilterChain securityFilterChain (HttpSecurity httpSecurity) throws Exception{
+    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                // Настройка доступа к различным URL-адресам
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/", "/css/**", "/guestPage", "/login")
                         .permitAll()
@@ -32,28 +40,49 @@ public class SecurityConfig {
                         .anyRequest()
                         .authenticated())
 
+                // Настройка формы входа в систему
                 .formLogin(login -> login
                         .loginPage("/login")
                         .successHandler(handler)
                         .permitAll())
 
+                // Настройка выхода из системы
                 .logout(logout -> logout.logoutSuccessUrl("/"))
+
+                // Отключение CSRF-защиты
                 .csrf().disable();
 
+        // Возвращаем цепочку фильтров безопасности
         return httpSecurity.build();
-
     }
 
+
+
+    /**
+     * Создает и возвращает PasswordEncoder, используемый для кодирования паролей пользователей.
+     *
+     * @return PasswordEncoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
+        // Создание и возврат экземпляра PasswordEncoder, который будет использоваться для хэширования паролей
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+    /**
+     * Создает и возвращает UserDetailsManager с предустановленными пользователями 'user' и 'admin'.
+     * Пароли пользователей задаются в открытом тексте с префиксом {noop}.
+     * Пользователь 'user' имеет роль 'USER', а пользователь 'admin' имеет роли 'USER' и 'ADMIN'.
+     *
+     * @return UserDetailsManager
+     */
     @Bean
     public UserDetailsManager userDetailsManager(){
+        // Создание экземпляров пользователей (user и admin) с их учетными данными и ролями
         var user = User.withUsername("user").password("{noop}password").roles("USER").build();
         var admin = User.withUsername("admin").password("{noop}password").roles("USER", "ADMIN").build();
 
+        // Создание и возврат экземпляра UserDetailsManager, который будет управлять пользователями и их данными
         return new InMemoryUserDetailsManager(user, admin);
     }
 
