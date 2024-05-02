@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -24,7 +23,7 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain (HttpSecurity httpSecurity) throws Exception{
         httpSecurity
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/css/**", "/guestPage", "/authorization")
+                        .requestMatchers("/", "/css/**", "/guestPage", "/login")
                         .permitAll()
                         .requestMatchers("/public-data")
                         .hasAnyRole("USER", "ADMIN")
@@ -34,7 +33,7 @@ public class SecurityConfig {
                         .authenticated())
 
                 .formLogin(login -> login
-                        .loginPage("/authorization")
+                        .loginPage("/login")
                         .successHandler(handler)
                         .permitAll())
 
