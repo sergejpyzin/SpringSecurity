@@ -5,6 +5,13 @@
 </head>
 <body>
 <h1>Private Data Page</h1>
+
+<tr th:each="product : ${products}">
+    <td th:text="${product.id}"></td>
+    <td th:text="${product.productName}"></td>
+    <td th:text="${product.price}"></td>
+</tr>
+
 <!-- Форма для добавления продукта -->
 <form action="/add-product" method="post">
     <input type="text" name="productName" placeholder="Product Name" required>
